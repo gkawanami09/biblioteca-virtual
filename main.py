@@ -42,7 +42,7 @@ def adicionar():
                 'data_devolucao': None
             }
             livros.append(novo_livro)
-            flash('Livro "' + titulo + '" adicionado com sucesso!')
+            flash(f'Livro {titulo} adicionado com sucesso!')
             return redirect('/')
         except Exception as e:
             return render_template('erro.html', mensagem='Erro ao adicionar livro: ' + str(e))
@@ -59,7 +59,7 @@ def editar(codigo):
             if ano < 0 or ano > 2025:
                 raise ValueError('Ano inválido. Informe um ano entre 0 e 2025.')
             livro['ano'] = ano
-            flash('Livro "' + livro['titulo'] + '" editado com sucesso!')
+            flash(f'Livro {livro['titulo']} editado com sucesso!')
             return redirect('/')
         return render_template('form.html', titulo='Editar Livro', livro=livro)
     except Exception as e:
@@ -70,7 +70,7 @@ def excluir(codigo):
     try:
         titulo = livros[codigo]['titulo']
         livros.pop(codigo)
-        flash('Livro "' + titulo + '" excluído com sucesso!')
+        flash(f'Livro {titulo} excluído com sucesso!')
     except Exception as e:
         return render_template('erro.html', mensagem='Erro ao excluir livro: ' + str(e))
     return redirect('/')
@@ -84,7 +84,7 @@ def emprestar(codigo):
         livro['data_emprestimo'] = agora
         livro['data_devolucao'] = agora + timedelta(days=7)
         data_str = livro['data_devolucao'].strftime('%d/%m/%Y')
-        flash('Livro "' + livro['titulo'] + '" emprestado até ' + data_str + '.')
+        flash(f"Livro {livro['titulo']} emprestado até {data_str}.")
     except Exception as e:
         return render_template('erro.html', mensagem='Erro ao emprestar livro: ' + str(e))
     return redirect('/')
@@ -99,7 +99,7 @@ def devolver(codigo):
             multa = 10 + (10 * 0.01 * atraso)
             flash('Livro devolvido com ' + str(atraso) + ' dias de atraso. Multa: R$ ' + '{:.2f}'.format(multa))
         else:
-            flash('Livro "' + livro['titulo'] + '" devolvido sem atraso.')
+            flash(f'Livro {livro['titulo']} devolvido sem atraso.')
         livro['emprestado'] = False
         livro['data_emprestimo'] = None
         livro['data_devolucao'] = None
