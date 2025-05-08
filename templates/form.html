@@ -1,4 +1,3 @@
-
 {% extends 'base.html' %}
 {% block content %}
     <h1>{{ titulo }}</h1>
@@ -10,7 +9,7 @@
         <input type="text" id="autor" name="autor" value="{{ livro.autor if livro else '' }}" required>
 
         <label for="ano">Ano</label>
-        <input type="number" id="ano" name="ano" value="{{ livro.ano if livro else '' }}" required min="1000" max="9999">
+        <input type="number" id="ano" name="ano" value="{{ livro.ano if livro else '' }}" required min="0" max="2025">
 
         <button class="btn" type="submit">Salvar</button>
         <a href="/"><button class="btn" type="button">Cancelar</button></a>

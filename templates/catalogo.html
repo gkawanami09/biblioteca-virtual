@@ -1,7 +1,8 @@
-
 {% extends 'base.html' %}
 {% block content %}
     <h1>Catálogo de Livros</h1>
+
+    {% if livros and livros|length > 0 %}
     <table>
         <thead>
             <tr>
@@ -30,4 +31,11 @@
             {% endfor %}
         </tbody>
     </table>
+    {% else %}
+    <div class="flash" style="background: #facc15; color: #000;">
+        Nenhum livro encontrado no catálogo.
+    </div>
+    {% endif %}
+
+    <a href="/"><button class="btn">Voltar para Início</button></a>
 {% endblock %}

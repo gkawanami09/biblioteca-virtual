@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -13,8 +12,8 @@
         <div class="logo">📚 Biblioteca</div>
         <ul class="nav-links">
             <li><a href="/">Início</a></li>
-            <li><a href="/">Catálogo</a></li>
-            <li><a href="/">Empréstimos</a></li>
+            <li><a href="/catalogo">Catálogo</a></li>
+            <li><a href="/emprestimos">Empréstimos</a></li>
             <li><a href="/adicionar">Adicionar Livro</a></li>
         </ul>
     </nav>
@@ -24,23 +23,27 @@
     </div>
 
     <script>
-        setTimeout(() => {
-            const flash = document.querySelector('.flash');
+        setTimeout(function() {
+            var flash = document.querySelector('.flash');
             if (flash) {
                 flash.style.transition = 'opacity 0.5s ease';
                 flash.style.opacity = '0';
-                setTimeout(() => flash.remove(), 500);
+                setTimeout(function() {
+                    flash.remove();
+                }, 500);
             }
         }, 3000);
 
-        document.querySelectorAll('.btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                btn.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    btn.style.transform = 'scale(1)';
+        var btns = document.querySelectorAll('.btn');
+        for (var i = 0; i < btns.length; i++) {
+            btns[i].addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                var b = this;
+                setTimeout(function() {
+                    b.style.transform = 'scale(1)';
                 }, 100);
             });
-        });
+        }
     </script>
 </body>
 </html>
