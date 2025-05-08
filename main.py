@@ -16,11 +16,11 @@ def catalogo():
 
 @app.route('/emprestimos')
 def emprestimos():
-    emprestados = []
+    livros_emprestados = []
     for livro in livros:
-        if livro['emprestado']:
-            emprestados.append(livro)
-    return render_template('emprestimos.html', livros=emprestados)
+        if livro['emprestado'] == True:
+            livros_emprestados.append(livro)
+    return render_template('emprestimos.html', livros=livros_emprestados)
 
 @app.route('/adicionar', methods=['GET', 'POST'])
 def adicionar():
@@ -42,10 +42,10 @@ def adicionar():
                 'data_devolucao': None
             }
             livros.append(novo_livro)
-            flash('Livro "{}" adicionado com sucesso!'.format(titulo))
+            flash('Livro "' + titulo + '" adicionado com sucesso!')
             return redirect('/')
         except Exception as e:
-            return render_template('erro.html', mensagem='Erro ao adicionar livro: {}'.format(e))
+            return render_template('erro.html', mensagem='Erro ao adicionar livro: ' + str(e))
     return render_template('form.html', titulo='Adicionar Livro', livro=None)
 
 @app.route('/editar/<int:codigo>', methods=['GET', 'POST'])
@@ -59,20 +59,20 @@ def editar(codigo):
             if ano < 0 or ano > 2025:
                 raise ValueError('Ano inválido. Informe um ano entre 0 e 2025.')
             livro['ano'] = ano
-            flash('Livro "{}" editado com sucesso!'.format(livro['titulo']))
+            flash('Livro "' + livro['titulo'] + '" editado com sucesso!')
             return redirect('/')
         return render_template('form.html', titulo='Editar Livro', livro=livro)
     except Exception as e:
-        return render_template('erro.html', mensagem='Erro ao editar livro: {}'.format(e))
+        return render_template('erro.html', mensagem='Erro ao editar livro: ' + str(e))
 
 @app.route('/excluir/<int:codigo>')
 def excluir(codigo):
     try:
         titulo = livros[codigo]['titulo']
         livros.pop(codigo)
-        flash('Livro "{}" excluído com sucesso!'.format(titulo))
+        flash('Livro "' + titulo + '" excluído com sucesso!')
     except Exception as e:
-        return render_template('erro.html', mensagem='Erro ao excluir livro: {}'.format(e))
+        return render_template('erro.html', mensagem='Erro ao excluir livro: ' + str(e))
     return redirect('/')
 
 @app.route('/emprestar/<int:codigo>')
@@ -84,9 +84,9 @@ def emprestar(codigo):
         livro['data_emprestimo'] = agora
         livro['data_devolucao'] = agora + timedelta(days=7)
         data_str = livro['data_devolucao'].strftime('%d/%m/%Y')
-        flash('Livro "{}" emprestado até {}.'.format(livro['titulo'], data_str))
+        flash('Livro "' + livro['titulo'] + '" emprestado até ' + data_str + '.')
     except Exception as e:
-        return render_template('erro.html', mensagem='Erro ao emprestar livro: {}'.format(e))
+        return render_template('erro.html', mensagem='Erro ao emprestar livro: ' + str(e))
     return redirect('/')
 
 @app.route('/devolver/<int:codigo>')
@@ -97,14 +97,14 @@ def devolver(codigo):
         atraso = (hoje - livro['data_devolucao']).days
         if atraso > 0:
             multa = 10 + (10 * 0.01 * atraso)
-            flash('Livro devolvido com {} dias de atraso. Multa: R$ {:.2f}'.format(atraso, multa))
+            flash('Livro devolvido com ' + str(atraso) + ' dias de atraso. Multa: R$ ' + '{:.2f}'.format(multa))
         else:
-            flash('Livro "{}" devolvido sem atraso.'.format(livro['titulo']))
+            flash('Livro "' + livro['titulo'] + '" devolvido sem atraso.')
         livro['emprestado'] = False
         livro['data_emprestimo'] = None
         livro['data_devolucao'] = None
     except Exception as e:
-        return render_template('erro.html', mensagem='Erro ao devolver livro: {}'.format(e))
+        return render_template('erro.html', mensagem='Erro ao devolver livro: ' + str(e))
     return redirect('/')
 
 if __name__ == '__main__':
