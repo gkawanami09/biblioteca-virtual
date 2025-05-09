@@ -96,7 +96,7 @@ def emprestar(codigo):
 def devolver(codigo):
     try:
         livro = livros[codigo]
-        hoje = datetime(2025, 5, 1)
+        hoje = datetime.now()
         atraso = (hoje - livro['data_devolucao']).days
         if hoje < livro['data_emprestimo']:
             return render_template('erro.html', mensagem='Erro, não aceitamos devolução de um viajante do tempo!')
